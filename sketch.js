@@ -1,4 +1,5 @@
 let canvas;
+let next;
 
 let font,
 	fontsize = 20;
@@ -16,7 +17,8 @@ function preload() {
 // Resive the canvas when the size of the browser changes
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
-	//drawGrid(cols, rows, grid);
+	// drawGrid(cols, rows, grid);
+	// setup();
 }
 
 function make2Darray(cols, rows) {
@@ -48,7 +50,12 @@ function drawGrid(cols, rows, grid) {
 function setup() {
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0, 0);
-	// canvas.style('z-index', '-1');
+	canvas.style('z-index', '-1');
+
+	next = select('#next');
+	next.position(windowWidth / 2, 5);
+	next.style('font-size', '1.5em');
+	setInterval(changeColor, 500);
 
 	// Set text characteristics
 	textFont(font);
@@ -67,8 +74,14 @@ function setup() {
 	drawGrid(cols, rows, grid);
 }
 
+function changeColor() {
+	let colors = ['Red', 'Orange', 'Yellow', 'MediumSpringGreen', 'RoyalBlue', 'Purple', 'Pink', 'LightCyan'];
+	let col = random(colors);
+	next.style('background-color', col);
+}
+
 function draw() {
-	// background(170);
+	background(30);
 
 	// Align the text in the center
 	// and run drawWords() in the middle of the canvas
@@ -80,8 +93,8 @@ function drawWords(x) {
 	// The text() function needs three parameters:
 	// the text to draw, the horizontal position,
 	// and the vertical position
-	fill(0);
-	text('70 per cent of people in Berlin agree with: ', x, 80);
-	fill(0);
-	text('"If you have nothing to hide, you should not be scared of cctvs"', x, 150);
+	fill(255);
+	text('70 per cent of people in Berlin agree with: ', x, 90);
+	fill(255);
+	text('"Nothing to hide, nothing to fear"', x, 160);
 }
