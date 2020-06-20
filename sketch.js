@@ -31,7 +31,7 @@ function make2Darray(cols, rows) {
 	return array;
 }
 
-function drawGrid(cols, rows, grid) {
+function drawGridDesktop(cols, rows, grid) {
 	let counter = 0;
 	for (let i = 0; i < cols; i++) {
 		for (let j = 0; j < rows; j++) {
@@ -47,20 +47,30 @@ function drawGrid(cols, rows, grid) {
 	}
 }
 
+function drawGridMobile(cols, rows, grid) {
+	let counter = 0;
+	for (let i = 0; i < cols; i++) {
+		for (let j = 0; j < rows; j++) {
+			counter++;
+			if (counter <= value) {
+				let p = createP('&#128514');
+				p.position(20 + 30 * grid[i][j].y, windowWidth / 2 + 30 * grid[i][j].x);
+			} else {
+				let p = createP('&#128545');
+				p.position(20 + 30 * grid[i][j].y, windowWidth / 2 + 30 * grid[i][j].x);
+			}
+		}
+	}
+}
+
 function setup() {
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.position(0, 0);
 	canvas.style('z-index', '-1');
 
 	next = select('#next');
-	next.position(windowWidth / 2, 5);
 	next.style('font-size', '1.5em');
 	setInterval(changeColor, 500);
-
-	// Set text characteristics
-	textFont(font);
-	textSize(fontsize);
-	textAlign(CENTER, CENTER);
 
 	// Initialise the grid where the percentage is represented
 	grid = make2Darray(cols, rows);
@@ -71,7 +81,11 @@ function setup() {
 		}
 	}
 	// Draw the emoticons in the grid
-	drawGrid(cols, rows, grid);
+	if (windowWidth < windowHeight) {
+		drawGridMobile(cols, rows, grid);
+	} else {
+		drawGridDesktop(cols, rows, grid);
+	}
 }
 
 function changeColor() {
@@ -82,19 +96,4 @@ function changeColor() {
 
 function draw() {
 	background(30);
-
-	// Align the text in the center
-	// and run drawWords() in the middle of the canvas
-	textAlign(CENTER);
-	drawWords(width * 0.5);
-}
-
-function drawWords(x) {
-	// The text() function needs three parameters:
-	// the text to draw, the horizontal position,
-	// and the vertical position
-	fill(255);
-	text('70 per cent of people in Berlin agree with: ', x, 90);
-	fill(255);
-	text('"Nothing to hide, nothing to fear"', x, 160);
 }
